@@ -1,0 +1,56 @@
+# Arquivos de configuração sensíveis
+.env
+*.pem
+*.key
+*.crt
+
+# Binários e arquivos compilados
+/bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Dependências e caches
+/vendor/
+/go.work
+
+# Arquivos de banco de dados
+*.db
+*.sqlite
+
+# Logs e arquivos temporários
+*.log
+/tmp/
+/temp/
+
+# Diretórios de IDEs e editores
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Arquivos de cache do Go
+.go-cache/
+
+# Arquivos de profile
+*.prof
+*.pprof
+*.memprof
+*.cpuprof
+
+# Relatórios de teste de cobertura
+coverage.*
+*.coverprofile
+
+# Configurações específicas para CI/CD
+.github/workflows/.env
+
+# Arquivos específicos do seu projeto
+# Adicione outros arquivos específicos do seu projeto aqui
