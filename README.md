@@ -155,4 +155,4 @@ Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICE
 
 ---
 
-Desenvolvido por [Felipe Sousa](https://github.com/Felipe8297) 
+Desenvolvido por [Felipe Silva](https://github.com/Felipe8297) 
