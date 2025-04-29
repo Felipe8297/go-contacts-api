@@ -77,9 +77,9 @@ Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
 ```
 DB_HOST=localhost
 DB_PORT=5432
-DB_USER=docker
-DB_PASSWORD=docker
-DB_NAME=contactsdb
+DB_USER=seu_usuario
+DB_PASSWORD=sua_senha
+DB_NAME=nome_db
 ```
 
 ## ▶️ Executando a Aplicação
@@ -145,17 +145,9 @@ go-contacts-api/
 └── README.md               # Documentação do projeto
 ```
 
-## 🔄 Migrações
+## 🔄 Migrations
 
-As migrações são executadas automaticamente quando a aplicação é iniciada. Os arquivos de migração estão localizados em `internal/pkg/migrations/`.
-
-## 👥 Contribuindo
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
-3. Faça commit das suas alterações (`git commit -m 'Adiciona nova feature'`)
-4. Faça push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
+As migrations são executadas automaticamente quando a aplicação é iniciada. Os arquivos de migração estão localizados em `internal/pkg/migrations/`.
 
 ## 📄 Licença
 
