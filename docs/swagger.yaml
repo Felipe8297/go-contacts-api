@@ -1,0 +1,227 @@
+definitions:
+  contacts.Contact:
+    description: Informações de um contato
+    properties:
+      category_id:
+        description: ID da categoria
+        example: 123e4567-e89b-12d3-a456-426614174111
+        type: string
+      created_at:
+        description: Data de criação
+        example: "2023-01-01T12:00:00Z"
+        type: string
+      email:
+        description: Email do contato
+        example: joao@example.com
+        type: string
+      id:
+        description: ID único do contato
+        example: 123e4567-e89b-12d3-a456-426614174000
+        type: string
+      name:
+        description: Nome do contato
+        example: João Silva
+        type: string
+      phone:
+        description: Telefone do contato
+        example: "11999998888"
+        type: string
+      updated_at:
+        description: Data de atualização
+        example: "2023-01-01T12:00:00Z"
+        type: string
+    type: object
+  contacts.CreateContactRequest:
+    description: Dados para criação de um contato
+    properties:
+      category_id:
+        description: ID da categoria
+        example: 123e4567-e89b-12d3-a456-426614174000
+        type: string
+      email:
+        description: Email do contato
+        example: joao@example.com
+        type: string
+      name:
+        description: Nome do contato
+        example: João Silva
+        type: string
+      phone:
+        description: Telefone do contato
+        example: "11999998888"
+        type: string
+    required:
+    - email
+    - name
+    type: object
+  contacts.ErrorResponse:
+    description: Estrutura padrão para respostas de erro
+    properties:
+      error:
+        description: Mensagem de erro
+        example: Mensagem de erro
+        type: string
+    type: object
+  contacts.UpdateContactRequest:
+    description: Dados para atualização de um contato
+    properties:
+      category_id:
+        description: ID da categoria
+        example: 123e4567-e89b-12d3-a456-426614174999
+        type: string
+      email:
+        description: Email do contato
+        example: joao.novo@example.com
+        type: string
+      name:
+        description: Nome do contato
+        example: João Silva Atualizado
+        type: string
+      phone:
+        description: Telefone do contato
+        example: "11999997777"
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /contacts:
+    get:
+      consumes:
+      - application/json
+      description: Retorna uma lista de todos os contatos cadastrados
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/contacts.Contact'
+            type: array
+        "500":
+          description: Erro interno do servidor
+          schema:
+            $ref: '#/definitions/contacts.ErrorResponse'
+      summary: Listar todos os contatos
+      tags:
+      - contacts
+    post:
+      consumes:
+      - application/json
+      description: Cria um novo contato com as informações fornecidas
+      parameters:
+      - description: Dados do contato
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contacts.CreateContactRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/contacts.Contact'
+        "400":
+          description: Erro de validação dos dados
+          schema:
+            $ref: '#/definitions/contacts.ErrorResponse'
+        "500":
+          description: Erro interno do servidor
+          schema:
+            $ref: '#/definitions/contacts.ErrorResponse'
+      summary: Criar um novo contato
+      tags:
+      - contacts
+  /contacts/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove um contato existente da base de dados
+      parameters:
+      - description: ID do contato
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Contato removido com sucesso
+        "404":
+          description: Contato não encontrado
+          schema:
+            $ref: '#/definitions/contacts.ErrorResponse'
+        "500":
+          description: Erro interno do servidor
+          schema:
+            $ref: '#/definitions/contacts.ErrorResponse'
+      summary: Excluir contato
+      tags:
+      - contacts
+    get:
+      consumes:
+      - application/json
+      description: Retorna um contato específico com base no ID fornecido
+      parameters:
+      - description: ID do contato
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contacts.Contact'
+        "404":
+          description: Contato não encontrado
+          schema:
+            $ref: '#/definitions/contacts.ErrorResponse'
+      summary: Buscar contato por ID
+      tags:
+      - contacts
+    put:
+      consumes:
+      - application/json
+      description: Atualiza os dados de um contato existente
+      parameters:
+      - description: ID do contato
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Dados atualizados do contato
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contacts.UpdateContactRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contacts.Contact'
+        "400":
+          description: Erro de validação dos dados
+          schema:
+            $ref: '#/definitions/contacts.ErrorResponse'
+        "404":
+          description: Contato não encontrado
+          schema:
+            $ref: '#/definitions/contacts.ErrorResponse'
+        "500":
+          description: Erro interno do servidor
+          schema:
+            $ref: '#/definitions/contacts.ErrorResponse'
+      summary: Atualizar contato
+      tags:
+      - contacts
+swagger: "2.0"
