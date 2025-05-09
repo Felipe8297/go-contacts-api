@@ -4,7 +4,6 @@ import (
 	"time"
 )
 
-// Contact representa um contato na base de dados
 // @Description Informações de um contato
 type Contact struct {
 	ID         string    `json:"id" example:"123e4567-e89b-12d3-a456-426614174000"`          // ID único do contato

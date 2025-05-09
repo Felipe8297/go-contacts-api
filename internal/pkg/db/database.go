@@ -11,9 +11,7 @@ import (
 
 var DB *sql.DB
 
-// InitDB inicializa a conexão com o banco de dados
 func InitDB() (*sql.DB, error) {
-	// Obtenção das variáveis de ambiente (ou defina valores padrão para desenvolvimento)
 	host := getEnv("DB_HOST", "localhost")
 	port := getEnv("DB_PORT", "5432")
 	user := getEnv("DB_USER", "")
@@ -29,7 +27,6 @@ func InitDB() (*sql.DB, error) {
 		return nil, err
 	}
 
-	// Testa a conexão
 	err = DB.Ping()
 	if err != nil {
 		return nil, err
@@ -40,7 +37,6 @@ func InitDB() (*sql.DB, error) {
 	return DB, nil
 }
 
-// CloseDB fecha a conexão com o banco de dados
 func CloseDB() {
 	if DB != nil {
 		DB.Close()
@@ -48,7 +44,6 @@ func CloseDB() {
 	}
 }
 
-// Helper para obter variáveis de ambiente com valor padrão
 func getEnv(key, defaultValue string) string {
 	value := os.Getenv(key)
 	if value == "" {

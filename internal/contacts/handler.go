@@ -16,7 +16,6 @@ type Handler struct {
 	service Service
 }
 
-// CreateContactRequest representa os dados necessários para criar um contato
 // @Description Dados para criação de um contato
 type CreateContactRequest struct {
 	Name       string `json:"name" binding:"required" example:"João Silva"`               // Nome do contato
@@ -25,7 +24,6 @@ type CreateContactRequest struct {
 	CategoryID string `json:"category_id" example:"123e4567-e89b-12d3-a456-426614174000"` // ID da categoria
 }
 
-// UpdateContactRequest representa os dados para atualização de um contato
 // @Description Dados para atualização de um contato
 type UpdateContactRequest struct {
 	Name       string `json:"name" example:"João Silva Atualizado"`                       // Nome do contato
@@ -34,12 +32,10 @@ type UpdateContactRequest struct {
 	CategoryID string `json:"category_id" example:"123e4567-e89b-12d3-a456-426614174999"` // ID da categoria
 }
 
-// NewHandler cria uma nova instância do handler de contatos
 func NewHandler(service Service) *Handler {
 	return &Handler{service: service}
 }
 
-// RegisterRoutes registra as rotas do handler no router
 func (h *Handler) RegisterRoutes(router *gin.Engine) {
 	contacts := router.Group("/contacts")
 	{
@@ -51,7 +47,6 @@ func (h *Handler) RegisterRoutes(router *gin.Engine) {
 	}
 }
 
-// CreateContact cria um novo contato
 // @Summary     Criar um novo contato
 // @Description Cria um novo contato com as informações fornecidas
 // @Tags        contacts
@@ -78,7 +73,6 @@ func (h *Handler) CreateContact(c *gin.Context) {
 	c.JSON(http.StatusCreated, contact)
 }
 
-// GetAllContacts retorna todos os contatos
 // @Summary     Listar todos os contatos
 // @Description Retorna uma lista de todos os contatos cadastrados
 // @Tags        contacts
@@ -96,7 +90,6 @@ func (h *Handler) GetAllContacts(c *gin.Context) {
 	c.JSON(http.StatusOK, contacts)
 }
 
-// GetContactByID busca um contato pelo ID
 // @Summary     Buscar contato por ID
 // @Description Retorna um contato específico com base no ID fornecido
 // @Tags        contacts
@@ -117,7 +110,6 @@ func (h *Handler) GetContactByID(c *gin.Context) {
 	c.JSON(http.StatusOK, contact)
 }
 
-// UpdateContact atualiza um contato existente
 // @Summary     Atualizar contato
 // @Description Atualiza os dados de um contato existente
 // @Tags        contacts
@@ -147,7 +139,6 @@ func (h *Handler) UpdateContact(c *gin.Context) {
 	c.JSON(http.StatusOK, contact)
 }
 
-// DeleteContact remove um contato
 // @Summary     Excluir contato
 // @Description Remove um contato existente da base de dados
 // @Tags        contacts

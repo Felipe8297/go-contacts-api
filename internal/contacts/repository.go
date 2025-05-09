@@ -10,17 +10,14 @@ type Repository interface {
 	Delete(id string) error
 }
 
-// PostgresRepository implementa a interface Repository para PostgreSQL
 type PostgresRepository struct {
 	db *sql.DB
 }
 
-// NewPostgresRepository cria uma nova instância do repositório PostgreSQL
 func NewPostgresRepository(db *sql.DB) Repository {
 	return &PostgresRepository{db: db}
 }
 
-// Create insere um novo contato no banco de dados
 func (r *PostgresRepository) Create(contact *Contact) error {
 	query := `
 		INSERT INTO contacts (name, email, phone, category_id, created_at, updated_at)
@@ -38,7 +35,6 @@ func (r *PostgresRepository) Create(contact *Contact) error {
 	return nil
 }
 
-// FindAll retorna todos os contatos
 func (r *PostgresRepository) FindAll() ([]*Contact, error) {
 	query := `
 		SELECT id, name, email, phone, category_id, created_at, updated_at
@@ -65,7 +61,6 @@ func (r *PostgresRepository) FindAll() ([]*Contact, error) {
 	return contacts, nil
 }
 
-// FindByID busca um contato pelo ID
 func (r *PostgresRepository) FindByID(id string) (*Contact, error) {
 	query := `
 		SELECT id, name, email, phone, category_id, created_at, updated_at
@@ -84,7 +79,6 @@ func (r *PostgresRepository) FindByID(id string) (*Contact, error) {
 	return contact, nil
 }
 
-// Update atualiza um contato existente
 func (r *PostgresRepository) Update(contact *Contact) error {
 
 	query := `
@@ -101,7 +95,6 @@ func (r *PostgresRepository) Update(contact *Contact) error {
 	return nil
 }
 
-// Delete remove um contato pelo ID
 func (r *PostgresRepository) Delete(id string) error {
 	query := `
 		DELETE FROM contacts
