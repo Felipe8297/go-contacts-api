@@ -9,11 +9,11 @@ import (
 )
 
 func ConnectDB() (*sql.DB, error) {
-	host := getEnv("DB_HOST", "localhost")
-	port := getEnv("DB_PORT", "5432")
-	user := getEnv("DB_USER", "")
-	password := getEnv("DB_PASSWORD", "")
-	dbname := getEnv("DB_NAME", "")
+	host := "postgres"
+	port := "5432"
+	user := "docker"
+	password := "docker"
+	dbname := "contactsdb"
 
 	connStr := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s sslmode=disable",
 		user, password, host, port, dbname)
@@ -33,5 +33,4 @@ func ConnectDB() (*sql.DB, error) {
 
 	log.Println("Conexão com PostgreSQL estabelecida com sucesso!")
 	return db, nil
-
 }
