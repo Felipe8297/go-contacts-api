@@ -1,6 +1,6 @@
 # API de Contatos em Go
 
-Uma API RESTful para gerenciamento de contatos construída com Go, Gin e PostgreSQL.
+Uma API RESTful para gerenciamento de contatos construída com Go, Gin, PostgreSQL, Prometheus e Grafana.
 
 ## 📋 Índice
 
@@ -9,6 +9,7 @@ Uma API RESTful para gerenciamento de contatos construída com Go, Gin e Postgre
 - [Recursos](#recursos)
 - [Instalação](#instalação)
 - [Configuração do Banco de Dados](#configuração-do-banco-de-dados)
+- [Monitoramento e Observabilidade](#monitoramento-e-observabilidade)
 - [Executando a Aplicação](#executando-a-aplicação)
 - [Documentação da API](#documentação-da-api)
 - [Endpoints](#endpoints)
@@ -19,7 +20,7 @@ Uma API RESTful para gerenciamento de contatos construída com Go, Gin e Postgre
 
 ## 🔍 Visão Geral
 
-Este projeto é uma API de gerenciamento de contatos que permite criar, listar, atualizar e excluir contatos. A API segue boas práticas de desenvolvimento, utiliza uma arquitetura em camadas e inclui documentação Swagger.
+Este projeto é uma API de gerenciamento de contatos que permite criar, listar, atualizar e excluir contatos. A API segue boas práticas de desenvolvimento, utiliza uma arquitetura em camadas, inclui documentação Swagger e monitoramento com Prometheus e Grafana.
 
 ## 🛠️ Tecnologias
 
@@ -27,6 +28,8 @@ Este projeto é uma API de gerenciamento de contatos que permite criar, listar, 
 - [Gin](https://github.com/gin-gonic/gin) - Framework web
 - [PostgreSQL](https://www.postgresql.org/) - Banco de dados
 - [Swagger](https://swagger.io/) - Documentação da API
+- [Prometheus](https://prometheus.io/) - Monitoramento de métricas
+- [Grafana](https://grafana.com/) - Visualização de métricas
 - [Docker](https://www.docker.com/) - Containerização
 
 ## ✨ Recursos
@@ -35,15 +38,15 @@ Este projeto é uma API de gerenciamento de contatos que permite criar, listar, 
 - Documentação interativa com Swagger
 - Implementação de migrações de banco de dados
 - Arquitetura em camadas (Handler, Service, Repository)
+- Monitoramento de métricas com Prometheus
+- Dashboards de métricas com Grafana
 - Containerização com Docker
 
 ## 🚀 Instalação
 
 ### Pré-requisitos
 
-- Go 1.24+
-- PostgreSQL
-- Docker e Docker Compose (opcional)
+- Docker e Docker Compose
 
 ### Clonando o repositório
 
@@ -52,51 +55,57 @@ git clone https://github.com/Felipe8297/go-contacts-api.git
 cd go-contacts-api
 ```
 
-### Instalando dependências
-
-```bash
-go mod download
-```
-
 ## 🗄️ Configuração do Banco de Dados
 
-### Usando Docker (Recomendado)
+A configuração do banco de dados é feita automaticamente pelo Docker Compose. As credenciais padrão estão definidas no arquivo [`docker-compose.yaml`](docker-compose.yaml):
+
+- Usuário: `docker`
+- Senha: `docker`
+- Banco: `contactsdb`
+
+Se necessário, ajuste as variáveis de ambiente no próprio arquivo.
+
+## 📊 Monitoramento e Observabilidade
+
+O projeto já está configurado para expor métricas no endpoint `/metrics`, que podem ser coletadas pelo Prometheus e visualizadas no Grafana.
+
+- **Prometheus**: coleta métricas da API automaticamente.
+- **Grafana**: permite criar dashboards para visualização das métricas.
+
+### Acessando as ferramentas
+
+- **Prometheus**: [http://localhost:9090](http://localhost:9090)
+- **Grafana**: [http://localhost:3000](http://localhost:3000)  
+  Usuário padrão: `admin`  
+  Senha padrão: `admin`
+
+### Exemplo de métricas expostas
+
+- `http_requests_total`
+- `http_request_duration_seconds`
+- `database_operations_total`
+- `database_operation_duration_seconds`
+
+Você pode criar dashboards no Grafana utilizando o Prometheus como fonte de dados.
+
+## ▶️ Executando a Aplicação
+
+### Usando Docker Compose
+
+Com todos os serviços configurados, basta executar:
 
 ```bash
 docker-compose up -d
 ```
 
-### Configuração Manual
+Isso irá subir os containers da API, banco de dados, Prometheus e Grafana.  
+A API estará disponível em [http://localhost:8080](http://localhost:8080).
 
-Crie um banco de dados PostgreSQL e configure as variáveis de ambiente conforme o arquivo `.env.example`.
-
-### Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
-
-```
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=seu_usuario
-DB_PASSWORD=sua_senha
-DB_NAME=nome_db
-```
-
-## ▶️ Executando a Aplicação
-
-### Executando as migrações
+### Parando os serviços
 
 ```bash
-go run cmd/migrate/main.go
+docker-compose down
 ```
-
-### Iniciando o servidor
-
-```bash
-go run cmd/api/main.go
-```
-
-O servidor estará disponível em http://localhost:8080
 
 ## 📚 Documentação da API
 
@@ -115,6 +124,7 @@ http://localhost:8080/swagger/index.html
 | POST | /contacts | Cria um novo contato |
 | PUT | /contacts/:id | Atualiza um contato existente |
 | DELETE | /contacts/:id | Remove um contato |
+| GET | /metrics | Métricas Prometheus |
 
 ## 📁 Estrutura do Projeto
 
@@ -138,16 +148,18 @@ go-contacts-api/
 │       ├── db/             # Conexão com banco de dados
 │       └── migrations/     # Migrações do banco de dados
 │
+├── prometheus/             # Configuração do Prometheus
 ├── .env.example            # Exemplo de variáveis de ambiente
 ├── .gitignore              # Arquivos ignorados pelo Git
 ├── docker-compose.yaml     # Configuração Docker
+├── Dockerfile              # Build da aplicação
 ├── go.mod                  # Dependências Go
 └── README.md               # Documentação do projeto
 ```
 
 ## 🔄 Migrations
 
-As migrations são executadas automaticamente quando a aplicação é iniciada. Os arquivos de migração estão localizados em `internal/pkg/migrations/`.
+As migrations são executadas automaticamente quando a aplicação é iniciada dentro do container. Os arquivos de migração estão localizados em `internal/pkg/migrations/`.
 
 ## 📄 Licença
 
@@ -155,4 +167,4 @@ Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICE
 
 ---
 
-Desenvolvido por [Felipe Silva](https://github.com/Felipe8297) 
+Desenvolvido por [Felipe Silva](https://github.com/Felipe8297)
